@@ -5,13 +5,13 @@ namespace Restaurant.Models;
 
 public class Score
 {
-    public int ScoreId { get; set; }
+    public int score_id { get; set; }
 
-    public int? RestScoreid { get; set; }
+    public int? rest_scoreid { get; set; }
 
-    public int Score1 { get; set; }
+    public int score { get; set; }
 
-    public DateTime ScoreDate { get; set; }
+    public DateTime score_date { get; set; }
 
-    public virtual Restaurants? RestScore { get; set; }
+    public virtual Restaurants? Restaurant_Score { get; set; }
 }

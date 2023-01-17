@@ -5,13 +5,13 @@ namespace Restaurant.Models;
 
 public class Menu
 {
-    public int DishId { get; set; }
+    public int dish_id { get; set; }
 
-    public int CuisineRes { get; set; }
+    public int cuisine_res { get; set; }
 
-    public string Dish { get; set; } = null!;
+    public string dish { get; set; } = null!;
 
-    public decimal Price { get; set; }
+    public decimal price { get; set; }
 
-    public virtual Restaurants CuisineResNavigation { get; set; } = null!;
+    public virtual Restaurants Restaurant_Menu { get; set; } = null!;
 }

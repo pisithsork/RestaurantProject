@@ -5,13 +5,13 @@ namespace Restaurant.Models;
 
 public class Grade
 {
-    public int GradeId { get; set; }
+    public int grade_id { get; set; }
 
-    public int RestGradeid { get; set; }
+    public int rest_gradeid { get; set; }
 
-    public string Grade1 { get; set; } = null!;
+    public string grade { get; set; } = null!;
 
-    public DateTime GradeDate { get; set; }
+    public DateTime grade_date { get; set; }
 
-    public virtual Restaurants RestGrade { get; set; } = null!;
+    public virtual Restaurants Restaurant_Grade { get; set; } = null!;
 }
