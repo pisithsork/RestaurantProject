@@ -19,6 +19,9 @@
             <td>
                 {{ restaurant.cuisine_type }}
             </td>
+            <td>
+                <button type="button" class="btn btn-link" (click)="getCurrentMenu(restaurant.rest_id, restaurant.id)">{{ restaurant.name }} Menu</button> 
+            </td>
         </tr>
     </tbody>
     
