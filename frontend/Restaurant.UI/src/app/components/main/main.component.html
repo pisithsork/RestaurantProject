@@ -1,1 +1,25 @@
-<p>main works!</p>
+<h2>List of Restaurant</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Restaurant</th>
+            <th scope="col">Address</th>
+            <th scope="col">Cuisine</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr *ngFor="let restaurant of AllRestaurant">
+            <td>
+                {{ restaurant.name }}
+            </td>
+            <td>
+                {{ restaurant.address }} {{ restaurant.city }}, {{restaurant.state }}
+            </td>
+            <td>
+                {{ restaurant.cuisine_type }}
+            </td>
+        </tr>
+    </tbody>
+    
+</table>
