@@ -29,16 +29,16 @@ namespace Restaurant.API.Controllers
 
         // GET: api/Grades/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Grade>> GetGrade(int id)
+        public async Task<ActionResult<Grade[]>> GetGrade(int rest_gradeid)
         {
-            var grade = await _context.Grades.FindAsync(id);
+            var grade = await _context.Grades.Where(g => g.rest_gradeid == rest_gradeid).ToListAsync();
 
             if (grade == null)
             {
                 return NotFound();
             }
 
-            return grade;
+            return Ok(grade);
         }
 
         // PUT: api/Grades/5
@@ -46,7 +46,7 @@ namespace Restaurant.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGrade(int id, Grade grade)
         {
-            if (id != grade.GradeId)
+            if (id != grade.grade_id)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace Restaurant.API.Controllers
             _context.Grades.Add(grade);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGrade", new { id = grade.GradeId }, grade);
+            return CreatedAtAction("GetGrade", new { id = grade.grade_id }, grade);
         }
 
         // DELETE: api/Grades/5
@@ -101,7 +101,7 @@ namespace Restaurant.API.Controllers
 
         private bool GradeExists(int id)
         {
-            return _context.Grades.Any(e => e.GradeId == id);
+            return _context.Grades.Any(e => e.grade_id == id);
         }
     }
 }

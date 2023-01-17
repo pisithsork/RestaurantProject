@@ -29,16 +29,16 @@ namespace Restaurant.API.Controllers
 
         // GET: api/Menus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Menu>> GetMenu(int id)
+        public async Task<ActionResult<Menu[]>> GetMenu(int menu_restid)
         {
-            var menu = await _context.Menus.FindAsync(id);
+            var menu = await _context.Menus.Where(m => m.cuisine_res == menu_restid).ToListAsync();
 
             if (menu == null)
             {
                 return NotFound();
             }
 
-            return menu;
+            return Ok(menu);
         }
 
         // PUT: api/Menus/5
@@ -46,7 +46,7 @@ namespace Restaurant.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMenu(int id, Menu menu)
         {
-            if (id != menu.DishId)
+            if (id != menu.dish_id)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace Restaurant.API.Controllers
             _context.Menus.Add(menu);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMenu", new { id = menu.DishId }, menu);
+            return CreatedAtAction("GetMenu", new { id = menu.dish_id }, menu);
         }
 
         // DELETE: api/Menus/5
@@ -101,7 +101,7 @@ namespace Restaurant.API.Controllers
 
         private bool MenuExists(int id)
         {
-            return _context.Menus.Any(e => e.DishId == id);
+            return _context.Menus.Any(e => e.dish_id == id);
         }
     }
 }

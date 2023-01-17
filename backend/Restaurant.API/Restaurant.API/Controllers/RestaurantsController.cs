@@ -46,7 +46,7 @@ namespace Restaurant.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRestaurant(int id, Restaurants restaurant)
         {
-            if (id != restaurant.Id)
+            if (id != restaurant.id)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace Restaurant.API.Controllers
             _context.Restaurants.Add(restaurant);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
+            return CreatedAtAction("GetRestaurant", new { id = restaurant.id }, restaurant);
         }
 
         // DELETE: api/Restaurants/5
@@ -101,7 +101,7 @@ namespace Restaurant.API.Controllers
 
         private bool RestaurantExists(int id)
         {
-            return _context.Restaurants.Any(e => e.Id == id);
+            return _context.Restaurants.Any(e => e.id == id);
         }
     }
 }

@@ -29,16 +29,16 @@ namespace Restaurant.API.Controllers
 
         // GET: api/Scores/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Score>> GetScore(int id)
+        public async Task<ActionResult<Score[]>> GetScore(int rest_scoreid)
         {
-            var score = await _context.Scores.FindAsync(id);
+            var score = await _context.Scores.Where(s => s.rest_scoreid == rest_scoreid).ToListAsync();
 
             if (score == null)
             {
                 return NotFound();
             }
 
-            return score;
+            return Ok(score);
         }
 
         // PUT: api/Scores/5
@@ -46,7 +46,7 @@ namespace Restaurant.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutScore(int id, Score score)
         {
-            if (id != score.ScoreId)
+            if (id != score.score_id)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace Restaurant.API.Controllers
             _context.Scores.Add(score);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetScore", new { id = score.ScoreId }, score);
+            return CreatedAtAction("GetScore", new { id = score.score_id }, score);
         }
 
         // DELETE: api/Scores/5
@@ -101,7 +101,7 @@ namespace Restaurant.API.Controllers
 
         private bool ScoreExists(int id)
         {
-            return _context.Scores.Any(e => e.ScoreId == id);
+            return _context.Scores.Any(e => e.score_id == id);
         }
     }
 }
