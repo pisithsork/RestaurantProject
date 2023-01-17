@@ -1,4 +1,4 @@
-export class Restaurant{
+export class Grade{
     grade_id: number;
     rest_gradeid: number;
     grade: string;

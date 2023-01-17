@@ -1,4 +1,4 @@
-export class Restaurant{
+export class Menu{
     dish_id: number;
     rest_scoreid: number;
     dish: string;
