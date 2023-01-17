@@ -22,9 +22,9 @@ namespace Restaurant.API.Controllers
 
         // GET: api/Restaurants
         [HttpGet]
-        public async Task<ActionResult<Restaurants[]>> GetAll()
+        public async Task<ActionResult<IEnumerable<Restaurants>>> GetAll()
         {
-            return  Ok(_context.Restaurants.ToListAsync());
+            return await _context.Restaurants.ToListAsync();
         }
 
         // GET: api/Restaurants/5
