@@ -106,20 +106,20 @@ public partial class RestaurantDbContext : DbContext, IContext
                 .IsUnicode(false)
                 .HasColumnName("state");
 
-            entity.HasMany(d => d.CuisineTypes).WithMany(p => p.Rests)
+            entity.HasMany(d => d.Cuisine).WithMany(p => p.Rests)
                 .UsingEntity<Dictionary<string, object>>(
-                    "RestaurantCuisine",
+                    "Restaurant_Cuisine",
                     r => r.HasOne<Cuisine>().WithMany()
-                        .HasForeignKey("CuisineTypeid")
+                        .HasForeignKey("cuisine_typeid")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK__Restauran__cuisi__0E6E26BF"),
                     l => l.HasOne<Restaurants>().WithMany()
-                        .HasForeignKey("RestId")
+                        .HasForeignKey("rest_id")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK__Restauran__rest___0D7A0286"),
                     j =>
                     {
-                        j.HasKey("RestId", "CuisineTypeid").HasName("PK__Restaura__6D2785A3A32D42CB");
+                        j.HasKey("rest_id", "cuisine_typeid").HasName("PK__Restaura__6D2785A3A32D42CB");
                         j.ToTable("Restaurant_Cuisine");
                     });
         });
@@ -143,6 +143,12 @@ public partial class RestaurantDbContext : DbContext, IContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+    }
+
+    //Stored Procedures
+    public virtual IQueryable<Restaurants> get_restaurant_info()
+    {
+        return Restaurants.FromSqlRaw("EXEC get_restaurant_info");
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

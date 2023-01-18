@@ -15,11 +15,11 @@ public partial class Restaurants
 
     public string state { get; set; } = null!;
 
-    public virtual ICollection<Grade> Grades { get; } = new List<Grade>();
+    public ICollection<Grade> Grades { get; set; } = new List<Grade>();
 
-    public virtual ICollection<Menu> Menus { get; } = new List<Menu>();
+    public ICollection<Menu> Menus { get; set; } = new List<Menu>();
 
-    public virtual ICollection<Score> Scores { get; } = new List<Score>();
+    public ICollection<Score> Scores { get; set; } = new List<Score>();
 
-    public virtual ICollection<Cuisine> CuisineTypes { get; } = new List<Cuisine>();
+    public ICollection<Cuisine> Cuisine { get; set; } = new List<Cuisine>();
 }
