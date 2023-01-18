@@ -10,5 +10,6 @@ namespace Restaurant.Models
         public DbSet<Score> Scores { get; set; }
         public DbSet<Cuisine> Cuisines { get; set; }
         public Task SaveAsync();
+
     }
 }

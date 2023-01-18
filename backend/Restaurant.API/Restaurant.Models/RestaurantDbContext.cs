@@ -151,6 +151,14 @@ public partial class RestaurantDbContext : DbContext, IContext
         return Restaurants.FromSqlRaw("EXEC get_restaurant_info");
     }
 
+    public virtual IQueryable<double> get_restaurant_scoreavg(int rest_id)
+    {
+        var context = new RestaurantDbContext();
+        var value = context.Database.SqlQuery<double>($"EXECUTE dbo.get_restaurant_scoreavg @{rest_id}");
+
+        return value;
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
     public Task SaveAsync() { return SaveChangesAsync();  }
