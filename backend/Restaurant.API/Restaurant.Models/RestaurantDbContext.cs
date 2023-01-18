@@ -15,13 +15,15 @@ public partial class RestaurantDbContext : DbContext, IContext
     {
     }
 
-    public DbSet<Grade> Grades { get; set; } = null!;
+    public DbSet<Cuisine> Cuisines { get; set; }
 
-    public DbSet<Menu> Menus { get; set; } = null!;
+    public DbSet<Grade> Grades { get; set; }
+
+    public DbSet<Menu> Menus { get; set; }
 
     public DbSet<Restaurants> Restaurants { get; set; } = null!;
 
-    public DbSet<Score> Scores { get; set; } = null!;
+    public DbSet<Score> Scores { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -29,9 +31,21 @@ public partial class RestaurantDbContext : DbContext, IContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Cuisine>(entity =>
+        {
+            entity.HasKey(e => e.cuisine_id).HasName("PK__Cuisine__3197C6F473F6C46D");
+
+            entity.ToTable("Cuisine");
+
+            entity.Property(e => e.cuisine_id).HasColumnName("cuisine_id");
+            entity.Property(e => e.cuisine_type)
+                .HasMaxLength(50)
+                .HasColumnName("cuisine_type");
+        });
+
         modelBuilder.Entity<Grade>(entity =>
         {
-            entity.HasKey(e => e.grade_id).HasName("PK__Grade__3A8F732CC65D78C0");
+            entity.HasKey(e => e.grade_id).HasName("PK__Grade__3A8F732C8B9F07BF");
 
             entity.ToTable("Grade");
 
@@ -46,20 +60,20 @@ public partial class RestaurantDbContext : DbContext, IContext
                 .HasColumnName("grade_date");
             entity.Property(e => e.rest_gradeid).HasColumnName("rest_gradeid");
 
-            entity.HasOne(d => d.Restaurant_Grade).WithMany(p => p.Grades)
+            entity.HasOne(d => d.RestGrade).WithMany(p => p.Grades)
                 .HasForeignKey(d => d.rest_gradeid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Grade__rest_grad__6477ECF3");
+                .HasConstraintName("FK__Grade__rest_grad__08B54D69");
         });
 
         modelBuilder.Entity<Menu>(entity =>
         {
-            entity.HasKey(e => e.dish_id).HasName("PK__Menu__9F2B4CF91066D9DF");
+            entity.HasKey(e => e.dish_id).HasName("PK__Menu__9F2B4CF9ACBBE656");
 
             entity.ToTable("Menu");
 
             entity.Property(e => e.dish_id).HasColumnName("dish_id");
-            entity.Property(e => e.cuisine_res).HasColumnName("cuisine_res");
+            entity.Property(e => e.cuisine_rest).HasColumnName("cuisine_rest");
             entity.Property(e => e.dish)
                 .HasMaxLength(50)
                 .HasColumnName("dish");
@@ -67,41 +81,52 @@ public partial class RestaurantDbContext : DbContext, IContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("price");
 
-            entity.HasOne(d => d.Restaurant_Menu).WithMany(p => p.Menus)
-                .HasForeignKey(d => d.cuisine_res)
+            entity.HasOne(d => d.CuisineRestNavigation).WithMany(p => p.Menus)
+                .HasForeignKey(d => d.cuisine_rest)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Menu__cuisine_re__5EBF139D");
+                .HasConstraintName("FK__Menu__cuisine_re__02FC7413");
         });
 
         modelBuilder.Entity<Restaurants>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__Restaura__3213E83FC9B85F8C");
-
-            entity.ToTable("Restaurant");
+            entity.HasKey(e => e.id).HasName("PK__Restaura__3213E83F53D5CB01");
 
             entity.Property(e => e.id).HasColumnName("id");
             entity.Property(e => e.address)
                 .HasMaxLength(50)
                 .HasColumnName("address");
             entity.Property(e => e.city)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .HasColumnName("city");
-            entity.Property(e => e.cuisine_type)
-                .HasMaxLength(20)
-                .HasColumnName("cuisine_type");
             entity.Property(e => e.name)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.rest_id).HasColumnName("rest_id");
             entity.Property(e => e.state)
                 .HasMaxLength(2)
                 .IsUnicode(false)
                 .HasColumnName("state");
+
+            entity.HasMany(d => d.CuisineTypes).WithMany(p => p.Rests)
+                .UsingEntity<Dictionary<string, object>>(
+                    "RestaurantCuisine",
+                    r => r.HasOne<Cuisine>().WithMany()
+                        .HasForeignKey("CuisineTypeid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__Restauran__cuisi__0E6E26BF"),
+                    l => l.HasOne<Restaurants>().WithMany()
+                        .HasForeignKey("RestId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__Restauran__rest___0D7A0286"),
+                    j =>
+                    {
+                        j.HasKey("RestId", "CuisineTypeid").HasName("PK__Restaura__6D2785A3A32D42CB");
+                        j.ToTable("Restaurant_Cuisine");
+                    });
         });
 
         modelBuilder.Entity<Score>(entity =>
         {
-            entity.HasKey(e => e.score_id).HasName("PK__Score__8CA1905070E8121B");
+            entity.HasKey(e => e.score_id).HasName("PK__Score__8CA1905015854503");
 
             entity.ToTable("Score");
 
@@ -112,14 +137,15 @@ public partial class RestaurantDbContext : DbContext, IContext
                 .HasColumnType("date")
                 .HasColumnName("score_date");
 
-            entity.HasOne(d => d.Restaurant_Score).WithMany(p => p.Scores)
+            entity.HasOne(d => d.RestScore).WithMany(p => p.Scores)
                 .HasForeignKey(d => d.rest_scoreid)
-                .HasConstraintName("FK__Score__rest_scor__619B8048");
+                .HasConstraintName("FK__Score__rest_scor__05D8E0BE");
         });
 
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-    public Task SaveAsync() { return SaveChangesAsync(); }
+
+    public Task SaveAsync() { return SaveChangesAsync();  }
 }
