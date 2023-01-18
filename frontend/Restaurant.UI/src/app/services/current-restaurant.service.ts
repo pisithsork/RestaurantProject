@@ -6,7 +6,7 @@ import { Restaurant } from '../models/restaurant';
 })
 export class CurrentRestaurantService {
 
-  private currentrest = new Restaurant(0, 0, "", "", "", "", "", [], [], []);
+  private currentrest = new Restaurant(0, 0, "", "", "", "", [], [], [], []);
   constructor() { }
 
   setRestaurant(restaurant: Restaurant){

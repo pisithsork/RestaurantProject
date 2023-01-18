@@ -19,13 +19,15 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void{
     this.restService.getAllRestaurant().subscribe(
-        (resp) => this.AllRestaurant = resp,
+        (resp) => {
+          this.AllRestaurant = resp
+          console.log(this.AllRestaurant)},
         (error) => console.log(error)
     );
   }
 
-  getCurrentMenu(rest_id: number, id: number){
-    this.menuService.getCurrentMenu(rest_id).subscribe(
+  getCurrentMenu(id: number){
+    this.menuService.getCurrentMenu(id).subscribe(
       (resp) => {
         this.AllRestaurant[id - 1].menu = resp
         this.currentrestservice.setRestaurant(this.AllRestaurant[id - 1])
