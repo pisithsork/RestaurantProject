@@ -1,7 +1,9 @@
 <h1>{{ currentrest.name }}</h1>
 <p>Address: {{ currentrest.address}} {{ currentrest.city }}, {{ currentrest.state }}</p>
-<p *ngFor="let grade of currentrest.grade">Current Health Grade: {{ grade.grade }}</p>
-<p *ngFor="let score of restavgscore">Average Score: {{ score }}/100</p>
+<span>Current Grade: </span><span *ngFor="let grade of currentrest.grade">{{ grade.grade }}</span>
+<br>
+<span>Average Score: </span><span *ngFor="let score of restavgscore">{{ score }}/100</span>
+<br>
 
 <button id="menubtn" type="button" class="btn btn-link" (click)="IO_Menu()">{{ menu_btn }}</button>
 <div *ngIf="menu">

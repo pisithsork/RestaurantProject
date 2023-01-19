@@ -16,4 +16,12 @@ export class GradeService {
   getRestaurantGrades(rest_scoreid: number):Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/api/Grades/${rest_scoreid}`);
   }
+
+  getRecentGrade(grade: Grade[]): Grade{
+    console.log(grade);
+    grade.sort((a, b) => {
+        return new Date(b.grade_date).getTime() - new Date(a.grade_date).getTime();
+    });
+    return grade[0];
+}
 }

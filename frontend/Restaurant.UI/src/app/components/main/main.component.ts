@@ -30,24 +30,8 @@ export class MainComponent implements OnInit {
           console.log(this.AllRestaurant)},
         (error) => console.log(error)
     );
-    // this.gradeService.getRestaurantGrades(20).subscribe(
-    //   (resp) =>{
-    //     this.testgrade = resp;
-    //   }
-    // )
-    // console.log("Testing: " + this.testgrade);
   }
 
-  // getCurrentMenu(id: number){
-  //   this.menuService.getCurrentMenu(id).subscribe(
-  //     (resp) => {
-  //       this.AllRestaurant[id - 1].menu = resp
-  //       this.currentrestservice.setRestaurant(this.AllRestaurant[id - 1])
-  //       console.log( "GetCurrentMenu Restaurant: " + this.AllRestaurant[id - 1].name)
-  //     },
-  //     (error) => console.log(error)
-  //   )
-  // }
 
   async getCurrentDetails(id:number){
     this.currentrestservice.setRestaurant(this.AllRestaurant[id - 1]);
@@ -63,7 +47,6 @@ this.gradeService.getRestaurantGrades(id).subscribe(
     this.menuService.getCurrentMenu(id).subscribe(
       (resp) => {
         this.currentrestservice.setMenu(resp);
-        // console.log(this.currentrest.grade.at(0)?.grade);
       },
       (error) => console.log(error)
     );
