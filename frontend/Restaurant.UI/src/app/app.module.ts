@@ -7,12 +7,14 @@ import { MainComponent } from './components/main/main.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DisplayMenuComponent } from './components/display-menu/display-menu.component';
+import { RestaurantDetailsComponent } from './components/restaurant-details/restaurant-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    DisplayMenuComponent
+    DisplayMenuComponent,
+    RestaurantDetailsComponent
   ],
   imports: [
     BrowserModule,

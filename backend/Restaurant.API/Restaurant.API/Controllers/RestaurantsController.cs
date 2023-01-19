@@ -15,6 +15,7 @@ namespace Restaurant.API.Controllers
     {
         private readonly RestaurantDbContext _context;
 
+
         public RestaurantsController(RestaurantDbContext context)
         {
             _context = context;
@@ -24,7 +25,15 @@ namespace Restaurant.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurants>>> GetAll()
         {
-            return await _context.Restaurants.ToListAsync();
+            var rest_cuisine = await _context.Cuisines.FromSqlRaw("EXECUTE dbo.get_restaurant_info").ToListAsync();
+            var value = await _context.Restaurants.FromSqlRaw("EXECUTE dbo.get_restaurant_info").ToListAsync();
+            int length = value.Count();
+            for (int i = 0; i < length; i++)
+            {
+                value[i].Cuisine.Add(rest_cuisine[i]);
+            }
+            var return_value = value.Distinct().ToList();
+            return return_value;
         }
 
         // GET: api/Restaurants/5

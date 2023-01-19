@@ -31,7 +31,7 @@ namespace Restaurant.API.Controllers
         [HttpGet("{menu_restid}")]
         public async Task<ActionResult<Menu[]>> GetMenu(int menu_restid)
         {
-            var menu = await _context.Menus.Where(m => m.cuisine_res == menu_restid).ToListAsync();
+            var menu = await _context.Menus.Where(m => m.cuisine_rest == menu_restid).ToListAsync();
 
             if (menu == null)
             {

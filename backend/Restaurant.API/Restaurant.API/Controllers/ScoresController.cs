@@ -28,8 +28,8 @@ namespace Restaurant.API.Controllers
         }
 
         // GET: api/Scores/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Score[]>> GetScore(int rest_scoreid)
+        [HttpGet("{rest_scoreid}")]
+        public async Task<ActionResult<Score[]>> GetRestaurantScores(int rest_scoreid)
         {
             var score = await _context.Scores.Where(s => s.rest_scoreid == rest_scoreid).ToListAsync();
 
@@ -99,9 +99,30 @@ namespace Restaurant.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("Average/{rest_scoreid}")]
+        public async Task<IEnumerable<double>> AverageScore(int rest_scoreid)
+        {
+            var score = await _context.Scores.Where(s => s.rest_scoreid == rest_scoreid).ToListAsync();
+
+            return AverageScore(score);
+        }
+
         private bool ScoreExists(int id)
         {
             return _context.Scores.Any(e => e.score_id == id);
+        }
+
+        private IEnumerable<double> AverageScore(List<Score> score_list)
+        {
+            List<double> scores = new List<double>();
+
+            foreach(Score score in score_list)
+            {
+                scores.Add(score.score);
+            }
+            List<double> value = new List<double>();
+            value.Add(scores.Average());
+            return value;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Restaurant.Models;
 
-public class Grade
+public partial class Grade
 {
     public int grade_id { get; set; }
 
@@ -13,5 +13,5 @@ public class Grade
 
     public DateTime grade_date { get; set; }
 
-    public virtual Restaurants Restaurant_Grade { get; set; } = null!;
+    public virtual Restaurants RestGrade { get; set; } = null!;
 }

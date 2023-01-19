@@ -11,47 +11,47 @@ namespace Restaurant.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GradesController : ControllerBase
+    public class CuisinesController : ControllerBase
     {
         private readonly RestaurantDbContext _context;
 
-        public GradesController(RestaurantDbContext context)
+        public CuisinesController(RestaurantDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Grades
+        // GET: api/Cuisines
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Grade>>> GetGrades()
+        public async Task<ActionResult<IEnumerable<Cuisine>>> GetCuisines()
         {
-            return await _context.Grades.ToListAsync();
+            return await _context.Cuisines.ToListAsync();
         }
 
-        // GET: api/Grades/5
-        [HttpGet("{rest_gradeid}")]
-        public async Task<ActionResult<Grade[]>> GetRestaurantGrades(int rest_gradeid)
+        // GET: api/Cuisines/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cuisine>> GetCuisine(int id)
         {
-            var grade = await _context.Grades.Where(g => g.rest_gradeid == rest_gradeid).ToListAsync();
+            var cuisine = await _context.Cuisines.FindAsync(id);
 
-            if (grade == null)
+            if (cuisine == null)
             {
                 return NotFound();
             }
 
-            return Ok(grade);
+            return cuisine;
         }
 
-        // PUT: api/Grades/5
+        // PUT: api/Cuisines/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGrade(int id, Grade grade)
+        public async Task<IActionResult> PutCuisine(int id, Cuisine cuisine)
         {
-            if (id != grade.grade_id)
+            if (id != cuisine.cuisine_id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(grade).State = EntityState.Modified;
+            _context.Entry(cuisine).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace Restaurant.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GradeExists(id))
+                if (!CuisineExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace Restaurant.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Grades
+        // POST: api/Cuisines
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Grade>> PostGrade(Grade grade)
+        public async Task<ActionResult<Cuisine>> PostCuisine(Cuisine cuisine)
         {
-            _context.Grades.Add(grade);
+            _context.Cuisines.Add(cuisine);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGrade", new { id = grade.grade_id }, grade);
+            return CreatedAtAction("GetCuisine", new { id = cuisine.cuisine_id }, cuisine);
         }
 
-        // DELETE: api/Grades/5
+        // DELETE: api/Cuisines/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGrade(int id)
+        public async Task<IActionResult> DeleteCuisine(int id)
         {
-            var grade = await _context.Grades.FindAsync(id);
-            if (grade == null)
+            var cuisine = await _context.Cuisines.FindAsync(id);
+            if (cuisine == null)
             {
                 return NotFound();
             }
 
-            _context.Grades.Remove(grade);
+            _context.Cuisines.Remove(cuisine);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool GradeExists(int id)
+        private bool CuisineExists(int id)
         {
-            return _context.Grades.Any(e => e.grade_id == id);
+            return _context.Cuisines.Any(e => e.cuisine_id == id);
         }
     }
 }

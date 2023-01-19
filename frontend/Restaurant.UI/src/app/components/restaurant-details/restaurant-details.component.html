@@ -1,0 +1,13 @@
+<h1>{{ currentrest.name }}</h1>
+<p>Address: {{ currentrest.address}} {{ currentrest.city }}, {{ currentrest.state }}</p>
+<p *ngFor="let grade of currentrest.grade">Current Health Grade: {{ grade.grade }}</p>
+<p *ngFor="let score of restavgscore">Average Score: {{ score }}/100</p>
+
+<button id="menubtn" type="button" class="btn btn-link" (click)="IO_Menu()">{{ menu_btn }}</button>
+<div *ngIf="menu">
+    <ul *ngFor="let menu of currentrest.menu" class="list-group">
+        <li class="list-group-item">
+            {{ menu.dish }} | {{ menu.price | currency:'USD'}}
+        </li>
+    </ul>
+</div>
