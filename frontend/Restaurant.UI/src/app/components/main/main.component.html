@@ -5,7 +5,6 @@
             <th scope="col">Restaurant</th>
             <th scope="col">Address</th>
             <th scope="col">Cuisine</th>
-            <th scope="col">Current Menu</th>
         </tr>
     </thead>
     
@@ -24,7 +23,7 @@
             </td>
             
             <td>
-                <button type="button" class="btn btn-link" (click)="getCurrentMenu(restaurant.id)">{{ restaurant.name }} Menu</button> 
+                <button type="button" class="btn btn-link" (click)="getCurrentDetails(restaurant.id)">Show Details {{ restaurant.id }}</button> 
             </td>
         </tr>
     </tbody>

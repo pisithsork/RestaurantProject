@@ -14,4 +14,5 @@ export class RestaurantService {
   getAllRestaurant(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/api/Restaurants`) 
   }
+  
 }
