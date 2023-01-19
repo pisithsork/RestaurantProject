@@ -28,8 +28,8 @@ namespace Restaurant.API.Controllers
         }
 
         // GET: api/Grades/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Grade[]>> GetGrade(int rest_gradeid)
+        [HttpGet("{rest_gradeid}")]
+        public async Task<ActionResult<Grade[]>> GetRestaurantGrades(int rest_gradeid)
         {
             var grade = await _context.Grades.Where(g => g.rest_gradeid == rest_gradeid).ToListAsync();
 
